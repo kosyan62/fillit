@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/mgena/CLionProjects/fillit/header.h
+libft/libft.h
+/Users/mgena/CLionProjects/fillit/libft/libft.h
+fcntl.h
+/Users/mgena/CLionProjects/fillit/fcntl.h
+
+/Users/mgena/CLionProjects/fillit/libft/libft.h
+unistd.h
+-
+stdlib.h
+-
+
+/Users/mgena/CLionProjects/fillit/main.c
+header.h
+/Users/mgena/CLionProjects/fillit/header.h
+stdio.h
+-
+

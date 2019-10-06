@@ -1,0 +1,3 @@
+/Users/mgena/CLionProjects/fillit/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/mgena/CLionProjects/fillit/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/mgena/CLionProjects/fillit/cmake-build-debug/CMakeFiles/fillit.dir
