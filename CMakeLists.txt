@@ -74,4 +74,4 @@ add_executable(fillit
         libft/get_next_line.h
         libft/libft.h
         header.h
-        main.c)
+        main.c libft/reverse_bits_64.c)

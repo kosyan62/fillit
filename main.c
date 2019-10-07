@@ -13,47 +13,21 @@
 #include "header.h"
 #include <stdio.h>
 
-uint64_t	reverse_bits(uint64_t tet)
-{
-	int i;
-	uint64_t x = 0;
-	uint64_t res = 0;
-
-	x = 1;
-	i = 63;
-
-	while (i > 0)
-	{
-		res = res | ((tet & x) << i);
-		x = x << 1;
-		i -= 2;
-	}
-	i = 1;
-	while (i < 64)
-	{
-		res = res | ((tet & x) >> i);
-		x = x << 1;
-		i += 2;
-	}
-	return (res);
-}
-
-
-void print_tetramino(uint16_t *tet)
+void print_tetramino(const u_int16_t *tet)
 {
 	for (int i = 0; i < 4; i++) {
 		for (int j = 15; j >= 0; j--) {
-			printf("%d", (tet[i] >> j) & 1);
+			printf("%d", tet[i] >> j & 1);
 		}
 		printf("\n");
 	}
 	printf("\n");
 }
 
-void    print_map(uint16_t *array) {
+void    print_map(const u_int16_t *array) {
 	for (int i = 0; i < 16; i++) {
 		for (int j = 15; j >= 0; j--) {
-			printf("%d", (array[i] >> j) & 1);
+			printf("%d", array[i] >> j & 1);
 		}
 		printf("\n");
 	}
@@ -65,22 +39,22 @@ void error(void)
     exit(0);
 }
 
-uint64_t bit_shift(uint64_t tet)
+u_int64_t bit_shift(u_int64_t tet)
 {
-	while ((9223512776490647552 & tet) == 0)
-		tet = tet << 1;
-	while ((61440 & tet) == 0)
-		tet = tet >> 16;
+	while ((9223512776490647552U & tet) == 0)
+		tet <<= 1;
+	while ((61440U & tet) == 0)
+		tet >>= 16;
 	return (tet);
 }
 
-uint64_t    make_tetramino(char *string)
+u_int64_t    make_tetramino(const char *string)
 {
-    uint64_t res;
-    size_t i;
-    uint64_t tmp;
+    u_int64_t res;
+    u_int64_t tmp;
+	size_t i;
 
-    i = 0;
+	i = 0;
     tmp = 0;
     res = 0;
     while (i != 19)
@@ -91,30 +65,24 @@ uint64_t    make_tetramino(char *string)
         {
             res = res << 16;
             tmp = 0;
-
         }
         else
 	        tmp++;
     }
-	res = reverse_bits(res);
+	res = reverse_bits_64(res);
 	res = bit_shift(res);
     return (res);
 }
 
-void get_tetraminos(int fd, uint64_t tetraminoarr[26])
+void get_tetraminos(int fd, u_int64_t tetraminoarr[26])
 {
-	char *line;
 	char tetrachr[22];
-	int i;
 	int x;
-	int ret;
 
-	i = 0;
 	x = 0;
-	line = NULL;
 	ft_bzero(tetrachr, 22);
 
-	while ((ret = read(fd, tetrachr, 21)) > 0)
+	while (read(fd, tetrachr, 21) > 0)
 	{
 		tetraminoarr[x++] = make_tetramino(tetrachr);
 	}
@@ -126,8 +94,8 @@ int main(void)
 {
 	int fd;
 	char *line;
-	uint64_t tetramino_array[26];
-	uint16_t map[16];
+	u_int64_t tetramino_array[26];
+	u_int16_t map[16];
 	int i = 0;
 
 	fd = open("test", O_RDONLY);
@@ -135,11 +103,10 @@ int main(void)
     while (i != 5)
     {
     	printf("%llu\n", tetramino_array[i]);
-    	print_tetramino(&(tetramino_array[i++]));
+    	print_tetramino((const u_int16_t *) &(tetramino_array[i++]));
     }
-//	*(uint64_t*)map = *(uint64_t*)(map + 2) ^ tetramino_array[0];
-	printf("%llu\n", tetramino_array[1]);
-	*(uint64_t*)(map)  ^= tetramino_array[1];
+	*(u_int64_t*)(map)  ^= tetramino_array[0];
+	*(u_int64_t*)(map)  ^= tetramino_array[1] >> 1;
     print_map(map);
     return 0;
 }

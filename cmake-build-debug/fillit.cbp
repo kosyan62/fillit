@@ -285,6 +285,9 @@
 		<Unit filename="/Users/mgena/CLionProjects/fillit/libft/libft.h">
 			<Option target="fillit"/>
 		</Unit>
+		<Unit filename="/Users/mgena/CLionProjects/fillit/libft/reverse_bits.c">
+			<Option target="fillit"/>
+		</Unit>
 		<Unit filename="/Users/mgena/CLionProjects/fillit/main.c">
 			<Option target="fillit"/>
 		</Unit>

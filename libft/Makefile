@@ -74,7 +74,8 @@ FUNCTIONS= ft_memset \
 			ft_atol \
 			ft_strclen \
 			ft_countdigits \
-			get_next_line
+			get_next_line \
+			reverse_bits_64
 
 OBJ= $(patsubst %,%.o,$(FUNCTIONS))
 SRC= $(patsubst %,%.c,$(FUNCTIONS))
