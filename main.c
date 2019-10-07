@@ -38,6 +38,7 @@ uint64_t	reverse_bits(uint64_t tet)
 	return (res);
 }
 
+
 void print_tetramino(uint16_t *tet)
 {
 	for (int i = 0; i < 4; i++) {
@@ -64,6 +65,15 @@ void error(void)
     exit(0);
 }
 
+uint64_t bit_shift(uint64_t tet)
+{
+	while ((9223512776490647552 & tet) == 0)
+		tet = tet << 1;
+	while ((61440 & tet) == 0)
+		tet = tet >> 16;
+	return (tet);
+}
+
 uint64_t    make_tetramino(char *string)
 {
     uint64_t res;
@@ -86,6 +96,8 @@ uint64_t    make_tetramino(char *string)
         else
 	        tmp++;
     }
+	res = reverse_bits(res);
+	res = bit_shift(res);
     return (res);
 }
 
@@ -120,10 +132,9 @@ int main(void)
 
 	fd = open("test", O_RDONLY);
     get_tetraminos(fd, tetramino_array);
-    while (i != 4)
+    while (i != 5)
     {
     	printf("%llu\n", tetramino_array[i]);
-    	tetramino_array[i] = reverse_bits(tetramino_array[i]);
     	print_tetramino(&(tetramino_array[i++]));
     }
 //	*(uint64_t*)map = *(uint64_t*)(map + 2) ^ tetramino_array[0];
