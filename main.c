@@ -105,45 +105,63 @@ int sqrt_map(int count)
 		i++;
 	return (i);
 }
+int tetra_width(u_int64_t tet)
+{
+	int w;
 
-int fillit(u_int64_t tetramins[26], int size_map, u_int16_t map[16]) {
-	uint64_t *tmp;
+	w = 0;
+	while ((9223512776490647552U & tet) != 0)
+	{
+		tet <<= 1;
+		w++;
+	}
+	return (w);
+}
+
+int tetra_height(u_int64_t tet)
+{
+	int l;
+
+	l = 0;
+	while ((61440U & tet) != 0)
+	{
+		tet >>= 16;
+		l++;
+	}
+	return (l);
+}
+
+int fillit(u_int64_t *tetramins, int size_map, u_int16_t map[16])
+{
+	u_int16_t *tmp;
 	int i;
 	int k;
+	int width;
+	int heigth;
 
-	i = 0;
-	k = 0;
+	width = tetra_width(tetramins[0]);
+	heigth = tetra_height(tetramins[0]);
+	k  = 0;
 	tmp = map;
-	if (tetramins[0] == 0)
-		return (1);
-	while (k <= size_map)
+	if (*tetramins == 0)
+		return 1;
+	while (k + heigth <= size_map)
 	{
-		while (i <= size_map)
+		i = 0;
+		while (i + width <= size_map)
 		{
-			if ((*(u_int64_t *) (map) & tetramins[0]) != 0)
-				break ;
-			tetramins[0] >>= 1;
+			if ((*(u_int64_t *)(map + k) & *tetramins >> i) == 0)
+			{
+				*(u_int64_t *) (map + k) ^= *tetramins >> i;
+				if (fillit(tetramins + 1, size_map, tmp) == 1)
+					return 1;
+				*(u_int64_t *) (map + k) ^= *tetramins >> i;
+			}
 			i++;
 		}
-		if ((*(u_int64_t *) (map) & tetramins[0]) != 0)
-			break ;
-		tetramins[0] <<= i;
-		map++;
-		i = 0;
 		k++;
 	}
-	if (k == size_map + 1 && i == size_map + 1)
 		return (0);
-	*(u_int64_t *) (map) ^= tetramins[0];
-	if (fillit(&tetramins[1], size_map, tmp) == 1)
-	else
-	{
-		if (i + 1 != size_map)
-			fillit((tetramins[0] >>= 1), size_map, tmp);
-		else
-	}
-
-
 
 }
 
@@ -161,14 +179,8 @@ int main(void)
 		tetramino_array[tetramino_count++] = 0;
     tetramino_count = get_tetraminos(fd, tetramino_array);
 	size_map = sqrt_map(tetramino_count);
-	fillit(tetramino_array, size_map, map);
-    while (tetramino_count != -1)
-    {
-    	printf("%llu\n", tetramino_array[tetramino_count]);
-    	print_tetramino((const u_int16_t *) &(tetramino_array[--tetramino_count]));
-    }
-	*(u_int64_t*)(map)  ^= tetramino_array[0];
-	//*(u_int64_t*)(map)  ^= tetramino_array[1] >> 1;
-    print_map(map);
+	while (fillit(tetramino_array, size_map, map) != 1)
+			size_map++;
+	print_map(map);
     return 0;
 }

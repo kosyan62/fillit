@@ -64,7 +64,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/fillit.dir/libft/ft_wordcount.c.o"
   "CMakeFiles/fillit.dir/libft/get_next_line.c.o"
   "CMakeFiles/fillit.dir/main.c.o"
-  "CMakeFiles/fillit.dir/libft/reverse_bits.c.o"
+  "CMakeFiles/fillit.dir/libft/reverse_bits_64.c.o"
   "fillit.pdb"
   "fillit"
 )

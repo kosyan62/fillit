@@ -1851,32 +1851,32 @@ libft/get_next_line.c.s:
 	$(MAKE) -f CMakeFiles/fillit.dir/build.make CMakeFiles/fillit.dir/libft/get_next_line.c.s
 .PHONY : libft/get_next_line.c.s
 
-libft/reverse_bits.o: libft/reverse_bits.c.o
+libft/reverse_bits_64.o: libft/reverse_bits_64.c.o
 
-.PHONY : libft/reverse_bits.o
+.PHONY : libft/reverse_bits_64.o
 
 # target to build an object file
-libft/reverse_bits.c.o:
-	$(MAKE) -f CMakeFiles/fillit.dir/build.make CMakeFiles/fillit.dir/libft/reverse_bits.c.o
-.PHONY : libft/reverse_bits.c.o
+libft/reverse_bits_64.c.o:
+	$(MAKE) -f CMakeFiles/fillit.dir/build.make CMakeFiles/fillit.dir/libft/reverse_bits_64.c.o
+.PHONY : libft/reverse_bits_64.c.o
 
-libft/reverse_bits.i: libft/reverse_bits.c.i
+libft/reverse_bits_64.i: libft/reverse_bits_64.c.i
 
-.PHONY : libft/reverse_bits.i
+.PHONY : libft/reverse_bits_64.i
 
 # target to preprocess a source file
-libft/reverse_bits.c.i:
-	$(MAKE) -f CMakeFiles/fillit.dir/build.make CMakeFiles/fillit.dir/libft/reverse_bits.c.i
-.PHONY : libft/reverse_bits.c.i
+libft/reverse_bits_64.c.i:
+	$(MAKE) -f CMakeFiles/fillit.dir/build.make CMakeFiles/fillit.dir/libft/reverse_bits_64.c.i
+.PHONY : libft/reverse_bits_64.c.i
 
-libft/reverse_bits.s: libft/reverse_bits.c.s
+libft/reverse_bits_64.s: libft/reverse_bits_64.c.s
 
-.PHONY : libft/reverse_bits.s
+.PHONY : libft/reverse_bits_64.s
 
 # target to generate assembly for a file
-libft/reverse_bits.c.s:
-	$(MAKE) -f CMakeFiles/fillit.dir/build.make CMakeFiles/fillit.dir/libft/reverse_bits.c.s
-.PHONY : libft/reverse_bits.c.s
+libft/reverse_bits_64.c.s:
+	$(MAKE) -f CMakeFiles/fillit.dir/build.make CMakeFiles/fillit.dir/libft/reverse_bits_64.c.s
+.PHONY : libft/reverse_bits_64.c.s
 
 main.o: main.c.o
 
@@ -2106,9 +2106,9 @@ help:
 	@echo "... libft/get_next_line.o"
 	@echo "... libft/get_next_line.i"
 	@echo "... libft/get_next_line.s"
-	@echo "... libft/reverse_bits.o"
-	@echo "... libft/reverse_bits.i"
-	@echo "... libft/reverse_bits.s"
+	@echo "... libft/reverse_bits_64.o"
+	@echo "... libft/reverse_bits_64.i"
+	@echo "... libft/reverse_bits_64.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

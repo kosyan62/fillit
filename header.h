@@ -13,4 +13,12 @@
 #define HEADER_H
 # include "libft/libft.h"
 # include "fcntl.h"
+typedef	struct		s_tetramino
+{
+	u_int64_t		*content;
+	int				x;
+	int				y;
+	int				height;
+	int				width;
+}					t_tetramino;
 #endif

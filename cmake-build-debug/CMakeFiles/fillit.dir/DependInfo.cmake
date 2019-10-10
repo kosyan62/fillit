@@ -68,7 +68,7 @@ set(CMAKE_DEPENDS_CHECK_C
   "/Users/mgena/CLionProjects/fillit/libft/ft_toupper.c" "/Users/mgena/CLionProjects/fillit/cmake-build-debug/CMakeFiles/fillit.dir/libft/ft_toupper.c.o"
   "/Users/mgena/CLionProjects/fillit/libft/ft_wordcount.c" "/Users/mgena/CLionProjects/fillit/cmake-build-debug/CMakeFiles/fillit.dir/libft/ft_wordcount.c.o"
   "/Users/mgena/CLionProjects/fillit/libft/get_next_line.c" "/Users/mgena/CLionProjects/fillit/cmake-build-debug/CMakeFiles/fillit.dir/libft/get_next_line.c.o"
-  "/Users/mgena/CLionProjects/fillit/libft/reverse_bits.c" "/Users/mgena/CLionProjects/fillit/cmake-build-debug/CMakeFiles/fillit.dir/libft/reverse_bits.c.o"
+  "/Users/mgena/CLionProjects/fillit/libft/reverse_bits_64.c" "/Users/mgena/CLionProjects/fillit/cmake-build-debug/CMakeFiles/fillit.dir/libft/reverse_bits_64.c.o"
   "/Users/mgena/CLionProjects/fillit/main.c" "/Users/mgena/CLionProjects/fillit/cmake-build-debug/CMakeFiles/fillit.dir/main.c.o"
   )
 set(CMAKE_C_COMPILER_ID "AppleClang")
