@@ -15,10 +15,17 @@
 # include "fcntl.h"
 typedef	struct		s_tetramino
 {
-	u_int64_t		*content;
+	u_int64_t		content;
 	int				x;
 	int				y;
 	int				height;
 	int				width;
 }					t_tetramino;
+typedef	struct		s_map
+{
+	u_int16_t		*content;
+	int 			tetramino_count;
+	int				size;
+}					t_map;
+
 #endif
