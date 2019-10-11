@@ -23,7 +23,7 @@ typedef	struct		s_tetramino
 }					t_tetramino;
 typedef	struct		s_map
 {
-	u_int16_t		*content;
+	u_int16_t		content[16];
 	int 			tetramino_count;
 	int				size;
 }					t_map;

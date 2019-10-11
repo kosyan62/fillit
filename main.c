@@ -135,32 +135,31 @@ int sqrt_map(int count)
 }
 
 
-int fillit(t_tetramino *tetramins, int size_map, u_int16_t map[16])
+int fillit(t_tetramino *tetramins, t_map *map)
 {
-	u_int16_t *tmp;
+	t_map tmp;
 	int i;
 	int k;
 
 
 	k  = 0;
-	tmp = map;
 	if ((*tetramins).content == 0)
 		return 1;
-	while (k + (*tetramins).height <= size_map)
+	while (k + (*tetramins).height <= map->size)
 	{
 		i = 0;
-		while (i + (*tetramins).width <= size_map)
+		while (i + (*tetramins).width <= map->size)
 		{
-			if ((*(u_int64_t *)(map + k) & (*tetramins).content >> i) == 0)
+			if ((*(u_int64_t *)(map->content + k) & (*tetramins).content >> i) == 0)
 			{
-				*(u_int64_t *) (map + k) ^= (*tetramins).content >> i;
-				if (fillit(tetramins + 1, size_map, tmp) == 1)
+				*(u_int64_t *) (map->content + k) ^= (*tetramins).content >> i;
+				if (fillit(tetramins + 1, map) == 1)
 				{
 					tetramins->x = i;
 					tetramins->y = k;
 					return 1;
 				}
-				*(u_int64_t *) (map + k) ^= (*tetramins).content >> i;
+				*(u_int64_t *) (map->content + k) ^= (*tetramins).content >> i;
 			}
 			i++;
 		}
@@ -169,27 +168,67 @@ int fillit(t_tetramino *tetramins, int size_map, u_int16_t map[16])
 		return (0);
 
 }
-void print_ready_map(u_int16_t map)
+void print_ready_map(t_map map, t_tetramino *array)
 {
-
+	char map_chr[300];
+	int i = 0;
+	int j = 15;
+	int x = 0;
+	char c = 65;
+	while ((array[i]).content != 0)
+	{
+		printf("coordinates %d: %d:%d\n", i, array[i].x, array[i].y);
+		i++;
+	}
+	i = 0;
+	while (i <= 299)
+	{
+		if (i % map.size == 0)
+			map_chr[i] = '\n';
+		map_chr[i++] = 0;
+	}
+	i = 0;
+	while (array[i].content != 0)
+	{
+		x = array[i].x + array[i].y * map.size;
+		
+	while (i < 16)
+	{
+		j = 15;
+		while (j >= 0)
+		{
+			if ((map.content[i] >> j & 1) == 1)
+				map_chr[x] = c;
+//				ft_putchar('1');
+			else
+				map_chr[x] = '0';
+//				ft_putchar('0');
+			j--;
+			x++;
+		}
+//		ft_putchar('\n');
+		i++;
+		x++;
+	}
+	printf("%s", map_chr);
 }
 
 int main(void)
 {
 	int fd;
 	t_tetramino	tetramino_array[26];
-	u_int16_t map[16];
-	int tetramino_count;
-	int size_map;
+	t_map map;
 
 	fd = open("test", O_RDONLY);
-	tetramino_count = 0;
-	while (tetramino_count != 26)
-		tetramino_array[tetramino_count++].content = 0;
-    tetramino_count = get_tetraminos(fd, tetramino_array);
-	size_map = sqrt_map(tetramino_count);
-	while (fillit(tetramino_array, size_map, map) != 1)
-			size_map++;
-	print_map(map);
+	map.tetramino_count = 0;
+	while (map.tetramino_count != 26)
+		tetramino_array[map.tetramino_count++].content = 0;
+    map.tetramino_count = get_tetraminos(fd, tetramino_array);
+	map.size = sqrt_map(map.tetramino_count);
+	while (fillit(tetramino_array, &map) != 1)
+			map.size++;
+	print_map(map.content);
+	printf("\n");
+	print_ready_map(map, tetramino_array);
     return 0;
 }
