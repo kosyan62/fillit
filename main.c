@@ -13,6 +13,8 @@
 #include "header.h"
 #include <stdio.h>
 
+void fill_map_alpha(u_int16_t *tet, char *map, int x, int i);
+
 void print_tetramino(const u_int16_t *tet)
 {
 	for (int i = 0; i < 4; i++) {
@@ -168,56 +170,105 @@ int fillit(t_tetramino *tetramins, t_map *map)
 		return (0);
 
 }
-void print_ready_map(t_map map, t_tetramino *array)
+void print_ready_map(int map_size, t_tetramino *tet)
 {
 	char map_chr[300];
 	int i = 0;
 	int j = 15;
 	int x = 0;
 	char c = 65;
-	while ((array[i]).content != 0)
+	ft_bzero(map_chr, 299);
+	printf("map size is %d\n", map_size);
+	while ((tet[i]).content != 0)
 	{
-		printf("coordinates %d: %d:%d\n", i, array[i].x, array[i].y);
+		printf("coordinates %d: %d:%d\n", i, tet[i].x, tet[i].y);
 		i++;
 	}
 	i = 0;
-	while (i <= 299)
+	while (i <= (map_size + 1) * map_size)
 	{
-		if (i % map.size == 0)
-			map_chr[i] = '\n';
-		map_chr[i++] = 0;
+		{
+			if(i== tet[x].x + (tet[x].y * map_size))
+			{
+				map_chr[i] = '#';
+//				print_tetramino((const u_int16_t *) &tet[x].content);
+//				fill_map_alpha((u_int16_t *) &(tet[x].content), &map_chr[i], tet->x, map_size);
+				x++;
+			}
+			else
+			map_chr[i] = '.';
+		}
+		i++;
 	}
-	i = 0;
-	while (array[i].content != 0)
+	i = 1;
+	while (map_chr[i] != 0)
 	{
-		x = array[i].x + array[i].y * map.size;
-		
-	while (i < 16)
+		ft_putchar(map_chr[i - 1]);
+		if (i % map_size == 0)
+			ft_putchar('\n');
+		i++;
+	}
+//	i = 0;
+//	while (array[i].content != 0)
+//	{
+//		x = array[i].x + array[i].y * map.size;
+//	}
+//	while (i < 16)
+//	{
+//		j = 15;
+//		while (j >= 0)
+//		{
+//			if ((map.content[i] >> j & 1) == 1)
+//				map_chr[x] = c;
+//				ft_putchar('1');
+//			else
+//				map_chr[x] = '0';
+//				ft_putchar('0');
+//			j--;
+//			x++;
+//		}
+//		ft_putchar('\n');
+//		i++;
+//		x++;
+//	}
+//	printf("%s", map_chr);
+}
+
+void fill_map_alpha(u_int16_t *tet, char *map, int x, int map_size)
+{
+	static char letter = 'A';
+	int i;
+	int j;
+	char *tmp;
+
+	tmp = map;
+	i = 0;
+	while (i < 4)
 	{
 		j = 15;
 		while (j >= 0)
 		{
-			if ((map.content[i] >> j & 1) == 1)
-				map_chr[x] = c;
-//				ft_putchar('1');
-			else
-				map_chr[x] = '0';
-//				ft_putchar('0');
-			j--;
-			x++;
-		}
-//		ft_putchar('\n');
-		i++;
-		x++;
-	}
-	printf("%s", map_chr);
-}
+			if ((tet[i] >> j & 1) == 1)
+			{
+				*map = letter;
+				map++;
+			}
+				if (15 - j == map_size)
+					break ;
 
+			j--;
+		}
+		i++;
+		map += x;
+	}
+	letter++;
+}
 int main(void)
 {
 	int fd;
 	t_tetramino	tetramino_array[26];
 	t_map map;
+
 
 	fd = open("test", O_RDONLY);
 	map.tetramino_count = 0;
@@ -228,7 +279,7 @@ int main(void)
 	while (fillit(tetramino_array, &map) != 1)
 			map.size++;
 	print_map(map.content);
-	printf("\n");
-	print_ready_map(map, tetramino_array);
+	printf("------------------------\n");
+	print_ready_map(map.size, tetramino_array);
     return 0;
 }
