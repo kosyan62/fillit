@@ -139,7 +139,7 @@ int sqrt_map(int count)
 
 int fillit(t_tetramino *tetramins, t_map *map)
 {
-	t_map tmp;
+//	t_map tmp;
 	int i;
 	int k;
 
@@ -174,9 +174,9 @@ void print_ready_map(int map_size, t_tetramino *tet)
 {
 	char map_chr[300];
 	int i = 0;
-	int j = 15;
+//	int j = 15;
 	int x = 0;
-	char c = 65;
+//	char c = 65;
 	ft_bzero(map_chr, 299);
 	printf("map size is %d\n", map_size);
 	while ((tet[i]).content != 0)
