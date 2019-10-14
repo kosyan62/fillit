@@ -251,14 +251,15 @@ void fill_map_alpha(u_int16_t *tet, char *map, int map_size)
 	}
 	letter++;
 }
-int main(void)
+int main(int argc, char **argv)
 {
 	int fd;
 	t_tetramino	tetramino_array[26];
 	t_map map;
 
-
-	fd = open("test", O_RDONLY);
+	if (argc != 2)
+		error();
+	fd = open(argv[1], O_RDONLY);
 	map.tetramino_count = 0;
 	while (map.tetramino_count != 26)
 		tetramino_array[map.tetramino_count++].content = 0;
