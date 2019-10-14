@@ -13,7 +13,7 @@
 #include "header.h"
 #include <stdio.h>
 
-void fill_map_alpha(u_int16_t *tet, char *map, int x, int i);
+void fill_map_alpha(u_int16_t *tet, char *map, int i);
 
 void print_tetramino(const u_int16_t *tet)
 {
@@ -121,7 +121,6 @@ int 	get_tetraminos(int fd, t_tetramino tetraminoarr[26])
 	}
 	if (tetrachr[21] == '\n')
 		error();
-	printf( "%d\n", x);
 	return (x);
 }
 
@@ -139,7 +138,6 @@ int sqrt_map(int count)
 
 int fillit(t_tetramino *tetramins, t_map *map)
 {
-//	t_map tmp;
 	int i;
 	int k;
 
@@ -178,27 +176,25 @@ void print_ready_map(int map_size, t_tetramino *tet)
 	int x = 0;
 //	char c = 65;
 	ft_bzero(map_chr, 299);
-	printf("map size is %d\n", map_size);
+	while (i != map_size * map_size)
+		map_chr[i++] = '.';
+	i = 0;
+//	printf("map size is %d\n", map_size);
 	while ((tet[i]).content != 0)
 	{
-		printf("coordinates %d: %d:%d\n", i, tet[i].x, tet[i].y);
+//		printf("coordinates %d: %d:%d\n", i, tet[i].x, tet[i].y);
 		i++;
 	}
 	i = 0;
-	while (i <= (map_size + 1) * map_size)
+	while (tet[x].content != 0)
 	{
-		{
-			if(i== tet[x].x + (tet[x].y * map_size))
+			if(i == tet[x].x + (tet[x].y * map_size))
 			{
-				map_chr[i] = '#';
-//				print_tetramino((const u_int16_t *) &tet[x].content);
-//				fill_map_alpha((u_int16_t *) &(tet[x].content), &map_chr[i], tet->x, map_size);
+				fill_map_alpha((u_int16_t *) &(tet[x].content), &map_chr[i], map_size);
 				x++;
+				i = 0;
 			}
-			else
-			map_chr[i] = '.';
-		}
-		i++;
+			else i++;
 	}
 	i = 1;
 	while (map_chr[i] != 0)
@@ -234,32 +230,24 @@ void print_ready_map(int map_size, t_tetramino *tet)
 //	printf("%s", map_chr);
 }
 
-void fill_map_alpha(u_int16_t *tet, char *map, int x, int map_size)
+void fill_map_alpha(u_int16_t *tet, char *map, int map_size)
 {
 	static char letter = 'A';
 	int i;
 	int j;
-	char *tmp;
 
-	tmp = map;
 	i = 0;
-	while (i < 4)
+	while (i != 4)
 	{
-		j = 15;
-		while (j >= 0)
+		j = 16;
+		while (j != 0)
 		{
-			if ((tet[i] >> j & 1) == 1)
-			{
-				*map = letter;
-				map++;
-			}
-				if (15 - j == map_size)
-					break ;
-
+			if ((tet[i] >> (j - 1) & 1) == 1)
+				map[16 - j] = letter;
 			j--;
 		}
+		map = map + map_size;
 		i++;
-		map += x;
 	}
 	letter++;
 }
@@ -278,8 +266,8 @@ int main(void)
 	map.size = sqrt_map(map.tetramino_count);
 	while (fillit(tetramino_array, &map) != 1)
 			map.size++;
-	print_map(map.content);
-	printf("------------------------\n");
+//	print_map(map.content);
+//	printf("------------------------\n");
 	print_ready_map(map.size, tetramino_array);
     return 0;
 }
