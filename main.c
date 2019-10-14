@@ -76,6 +76,31 @@ int tetra_height(u_int64_t tet)
 	return (l);
 }
 
+void check_tetramino(u_int64_t res)
+{
+//	printf("res != %llu &&\n", res);
+	if (res != 9223512776490647552U &&
+		res != 61440 &&
+		res != 536928256 &&
+		res != 3758104576 &&
+		res != 3758129152 &&
+		res != 2147540992 &&
+		res != 70369817968640 &&
+		res != 140739635888128 &&
+		res != 211107306291200 &&
+		res != 211108380049408 &&
+		res != 1073799168 &&
+		res != 3758112768 &&
+		res != 70371965419520 &&
+		res != 140740709613568 &&
+		res != 3221274624 &&
+		res != 1610661888 &&
+		res != 3221250048 &&
+		res != 70371965435904 &&
+		res != 140740709597184)
+		error();
+}
+
 u_int64_t    make_tetramino(const char *string)
 {
     u_int64_t res;
@@ -99,6 +124,7 @@ u_int64_t    make_tetramino(const char *string)
     }
 	res = reverse_bits_64(res);
 	res = bit_shift(res);
+	check_tetramino(res);
     return (res);
 }
 
@@ -119,6 +145,8 @@ int 	get_tetraminos(int fd, t_tetramino tetraminoarr[26])
 		tetraminoarr[x].height = tetra_height(tetraminoarr[x].content);
 		x++;
 	}
+	if (read < 0)
+		error();
 	if (tetrachr[21] == '\n')
 		error();
 	return (x);
@@ -260,6 +288,8 @@ int main(int argc, char **argv)
 	if (argc != 2)
 		error();
 	fd = open(argv[1], O_RDONLY);
+	if (fd < 0)
+		error();
 	map.tetramino_count = 0;
 	while (map.tetramino_count != 26)
 		tetramino_array[map.tetramino_count++].content = 0;
