@@ -193,6 +193,9 @@ CMakeFiles/fillit.dir/libft/get_next_line.c.o: ../libft/get_next_line.c
 CMakeFiles/fillit.dir/libft/get_next_line.c.o: ../libft/get_next_line.h
 CMakeFiles/fillit.dir/libft/get_next_line.c.o: ../libft/libft.h
 
+CMakeFiles/fillit.dir/libft/reverse_bits_64.c.o: ../libft/libft.h
+CMakeFiles/fillit.dir/libft/reverse_bits_64.c.o: ../libft/reverse_bits_64.c
+
 CMakeFiles/fillit.dir/main.c.o: ../header.h
 CMakeFiles/fillit.dir/main.c.o: ../libft/libft.h
 CMakeFiles/fillit.dir/main.c.o: ../main.c
