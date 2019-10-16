@@ -6,18 +6,18 @@
 #    By: pkingsbl <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/12 16:27:53 by pkingsbl          #+#    #+#              #
-#    Updated: 2019/10/14 16:51:21 by pkingsbl         ###   ########.fr        #
+#    Updated: 2019/10/16 21:38:38 by mgena            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fillit
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 PATH_LIBFT = libft
 
-SRC = main.c
+SRC = main.c tetramino.c validator.c
 
 OBJ = $(patsubst %.c,%.o,$(SRC))
 
