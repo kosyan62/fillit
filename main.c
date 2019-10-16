@@ -6,7 +6,7 @@
 /*   By: mgena <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 18:59:12 by mgena             #+#    #+#             */
-/*   Updated: 2019/10/16 18:41:03 by pkingsbl         ###   ########.fr       */
+/*   Updated: 2019/10/16 20:12:59 by mgena            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void		error(void)
 	exit(0);
 }
 
-void		check_tetramino(u_int64_t res)
+void		check_tetramino(uint64_t res)
 {
 	if (res != 9223512776490647552U &&
 		res != 61440 &&
@@ -42,7 +42,7 @@ void		check_tetramino(u_int64_t res)
 		error();
 }
 
-u_int64_t	bit_shift(u_int64_t tet)
+uint64_t	bit_shift(uint64_t tet)
 {
 	tet = reverse_bits_64(tet);
 	if (tet == 0)
@@ -55,7 +55,7 @@ u_int64_t	bit_shift(u_int64_t tet)
 	return (tet);
 }
 
-int			tetra_width(u_int64_t tet)
+int			tetra_width(uint64_t tet)
 {
 	int w;
 
@@ -68,7 +68,7 @@ int			tetra_width(u_int64_t tet)
 	return (w);
 }
 
-int			tetra_height(u_int64_t tet)
+int			tetra_height(uint64_t tet)
 {
 	int l;
 
@@ -81,11 +81,11 @@ int			tetra_height(u_int64_t tet)
 	return (l);
 }
 
-u_int64_t	make_tetramino(const char *string)
+uint64_t	make_tetramino(const char *string)
 {
 	size_t		i;
-	u_int64_t	res;
-	u_int64_t	tmp;
+	uint64_t	res;
+	uint64_t	tmp;
 
 	i = 0;
 	tmp = 0;
@@ -119,11 +119,11 @@ int			get_tetraminos(int fd, t_tetramino tetraminoarr[26])
 	ft_bzero(tetrachr, 22);
 	while (read(fd, tetrachr, 21) > 0)
 	{
-		if (x == 27)
+		if (x == 26)
 			error();
-		tetraminoarr[x].content = make_tetramino(tetrachr);
-		tetraminoarr[x].width = tetra_width(tetraminoarr[x].content);
-		tetraminoarr[x].height = tetra_height(tetraminoarr[x].content);
+		tetraminoarr[x].cont = make_tetramino(tetrachr);
+		tetraminoarr[x].width = tetra_width(tetraminoarr[x].cont);
+		tetraminoarr[x].height = tetra_height(tetraminoarr[x].cont);
 		lastchar = tetrachr[20];
 		ft_bzero(tetrachr, 22);
 		x++;
@@ -148,52 +148,55 @@ int			sqrt_map(int count)
 	return (i);
 }
 
-int			fillit(t_tetramino *tetramins, t_map *map)
+void		get_pos(int i[2], t_tetramino *tet)
 {
-	int i;
-	int k;
+	tet->x = i[0];
+	tet->y = i[1];
+}
 
-	k = 0;
-	if ((*tetramins).content == 0)
+int			fillit(t_tetramino *tet, t_map *map)
+{
+	int i[2];
+
+	i[1] = 0;
+	if ((*tet).cont == 0)
 		return (1);
-	while (k + (*tetramins).height <= map->size)
+	while (i[1] + (*tet).height <= map->size)
 	{
-		i = 0;
-		while (i + (*tetramins).width <= map->size)
+		i[0] = 0;
+		while (i[0] + (*tet).width <= map->size)
 		{
-			if ((*(u_int64_t *)(map->content + k) & (*tetramins).content >> i) == 0)
+			if ((*(uint64_t *)(map->cont + i[1]) & (*tet).cont >> i[0]) == 0)
 			{
-				*(u_int64_t *)(map->content + k) ^= (*tetramins).content >> i;
-				if (fillit(tetramins + 1, map) == 1)
+				*(uint64_t *)(map->cont + i[1]) ^= (*tet).cont >> i[0];
+				if (fillit(tet + 1, map) == 1)
 				{
-					tetramins->x = i;
-					tetramins->y = k;
+					get_pos(i, tet);
 					return (1);
 				}
-				*(u_int64_t *)(map->content + k) ^= (*tetramins).content >> i;
+				*(uint64_t *)(map->cont + i[1]) ^= (*tet).cont >> i[0];
 			}
-			i++;
+			i[0]++;
 		}
-		k++;
+		i[1]++;
 	}
 	return (0);
 }
 
-void		fill_map_alpha(u_int16_t *tet, char *map, int map_size)
+void		fill_map_alpha(uint16_t *tet, char *map, int map_size)
 {
 	static char	letter;
 	int			i;
 	int			j;
 
 	i = 0;
-	letter = 'A';
 	while (i != 4)
 	{
 		j = 16;
 		while (j != 0)
 		{
 			if ((tet[i] >> (j - 1) & 1) == 1)
-				map[16 - j] = letter;
+				map[16 - j] = letter + 65;
 			j--;
 		}
 		map = map + map_size;
@@ -202,7 +205,21 @@ void		fill_map_alpha(u_int16_t *tet, char *map, int map_size)
 	letter++;
 }
 
-void		print_ready_map(int map_size, t_tetramino *tet)
+void		print_ready_map(char map_chr[300], int map_size)
+{
+	int i;
+
+	i = 1;
+	while (map_chr[i] != 0)
+	{
+		ft_putchar(map_chr[i - 1]);
+		if (i % map_size == 0)
+			ft_putchar('\n');
+		i++;
+	}
+}
+
+void		fill_ready_map(int map_size, t_tetramino *tet)
 {
 	char	map_chr[300];
 	int		i;
@@ -214,30 +231,18 @@ void		print_ready_map(int map_size, t_tetramino *tet)
 	while (i != map_size * map_size + 1)
 		map_chr[i++] = '.';
 	i = 0;
-	while ((tet[i]).content != 0)
-	{
-		i++;
-	}
-	i = 0;
-	while (tet[x].content != 0)
+	while (tet[x].cont != 0)
 	{
 		if (i == tet[x].x + (tet[x].y * map_size))
 		{
-			fill_map_alpha((u_int16_t *)&(tet[x].content), &map_chr[i], map_size);
+			fill_map_alpha((uint16_t *)&(tet[x].cont), &map_chr[i], map_size);
 			x++;
 			i = 0;
 		}
 		else
 			i++;
 	}
-	i = 1;
-	while (map_chr[i] != 0)
-	{
-		ft_putchar(map_chr[i - 1]);
-		if (i % map_size == 0)
-			ft_putchar('\n');
-		i++;
-	}
+	print_ready_map(map_chr, map_size);
 }
 
 int			main(int argc, char **argv)
@@ -252,12 +257,12 @@ int			main(int argc, char **argv)
 	if (fd < 0)
 		error();
 	map.tetramino_count = 0;
-	while (map.tetramino_count != 26)
-		tetramino_array[map.tetramino_count++].content = 0;
+	while (map.tetramino_count != 27)
+		tetramino_array[map.tetramino_count++].cont = 0;
 	map.tetramino_count = get_tetraminos(fd, tetramino_array);
 	map.size = sqrt_map(map.tetramino_count);
 	while (fillit(tetramino_array, &map) != 1)
 		map.size++;
-	print_ready_map(map.size, tetramino_array);
+	fill_ready_map(map.size, tetramino_array);
 	return (0);
 }
