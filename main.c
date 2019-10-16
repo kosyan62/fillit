@@ -6,7 +6,7 @@
 /*   By: mgena <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 18:59:12 by mgena             #+#    #+#             */
-/*   Updated: 2019/10/15 20:32:23 by mgena            ###   ########.fr       */
+/*   Updated: 2019/10/16 18:41:03 by pkingsbl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,11 +181,12 @@ int			fillit(t_tetramino *tetramins, t_map *map)
 
 void		fill_map_alpha(u_int16_t *tet, char *map, int map_size)
 {
-	static char letter = 'A';
-	int i;
-	int j;
+	static char	letter;
+	int			i;
+	int			j;
 
 	i = 0;
+	letter = 'A';
 	while (i != 4)
 	{
 		j = 16;
@@ -201,10 +202,14 @@ void		fill_map_alpha(u_int16_t *tet, char *map, int map_size)
 	letter++;
 }
 
-void		print_ready_map(int map_size, t_tetramino *tet) {
-	char map_chr[300];
-	int i = 0;
-	int x = 0;
+void		print_ready_map(int map_size, t_tetramino *tet)
+{
+	char	map_chr[300];
+	int		i;
+	int		x;
+
+	i = 0;
+	x = 0;
 	ft_bzero(map_chr, 299);
 	while (i != map_size * map_size + 1)
 		map_chr[i++] = '.';
@@ -218,10 +223,12 @@ void		print_ready_map(int map_size, t_tetramino *tet) {
 	{
 		if (i == tet[x].x + (tet[x].y * map_size))
 		{
-			fill_map_alpha((u_int16_t *) &(tet[x].content), &map_chr[i], map_size);
+			fill_map_alpha((u_int16_t *)&(tet[x].content), &map_chr[i], map_size);
 			x++;
 			i = 0;
-		} else i++;
+		}
+		else
+			i++;
 	}
 	i = 1;
 	while (map_chr[i] != 0)
@@ -235,9 +242,9 @@ void		print_ready_map(int map_size, t_tetramino *tet) {
 
 int			main(int argc, char **argv)
 {
-	int fd;
+	int			fd;
 	t_tetramino	tetramino_array[26];
-	t_map map;
+	t_map		map;
 
 	if (argc != 2)
 		error();
@@ -247,10 +254,10 @@ int			main(int argc, char **argv)
 	map.tetramino_count = 0;
 	while (map.tetramino_count != 26)
 		tetramino_array[map.tetramino_count++].content = 0;
-    map.tetramino_count = get_tetraminos(fd, tetramino_array);
+	map.tetramino_count = get_tetraminos(fd, tetramino_array);
 	map.size = sqrt_map(map.tetramino_count);
 	while (fillit(tetramino_array, &map) != 1)
-			map.size++;
+		map.size++;
 	print_ready_map(map.size, tetramino_array);
-    return 0;
+	return (0);
 }
