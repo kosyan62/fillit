@@ -24,7 +24,8 @@ jobs:
     - name: Install and build fillit-tests
       run: git clone https://github.com/erikpeik/fillit-tests.git && echo ${PWD} > fillit-tests/path.ini
     - name: Run Tests
-      run:  bash -c "cd fillit-tests && env TERM=dumb ./test.sh easy" > test.log; [ $? -eq 1 ] || echo "Tests passed"
+      continue-on-error: true
+      run:  bash -c "cd fillit-tests && env TERM=dumb ./test.sh easy" > test.log
     - name: Check Test Results
       run: if grep "FAIL" test.log; then echo "Tests failed"; exit 1; else echo "All tests passed"; fi
     - name: Upload Test Results
