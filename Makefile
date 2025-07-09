@@ -10,35 +10,37 @@
 #                                                                              #
 # **************************************************************************** #
 
+include libft/libft/libft.mk
+
 NAME = fillit
 
+BUILD_DIR = build
+
+SRCS = main.c tetramino.c validator.c
+OBJS := $(patsubst %.c,$(BUILD_DIR)/%.o,$(SRCS))
+
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g
-
-PATH_LIBFT = libft
-
-SRC = main.c tetramino.c validator.c
-
-OBJ = $(patsubst %.c,%.o,$(SRC))
+CFLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 
-$(NAME): $(PATH_LIBFT)/libft.a $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $(NAME) -L $(PATH_LIBFT) -lft
+$(NAME): $(LIBFT_LIB) $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBFT_LNK)
 
-$(PATH_LIBFT)/libft.a:
-	make -C $(PATH_LIBFT)
+$(LIBFT_LIB):
+	make -C $(LIBFT_PATH)
 
-%.o: %.c header.h
-	$(CC) $(CFLAGS) -c $< -I $(PATH_LIBFT)
+$(BUILD_DIR)/%.o: %.c header.h
+	@mkdir -p $(BUILD_DIR)
+	$(CC) $(CFLAGS) -c $< $(LIBFT_INC) -o $@
 
 clean:
-	rm -f $(OBJ)
-	make -C $(PATH_LIBFT) clean
+	rm -rvf $(BUILD_DIR)
+	make -C $(LIBFT_PATH) clean
 
 fclean: clean
-	rm -f $(NAME)
-	make -C $(PATH_LIBFT) fclean
+	rm -rvf $(NAME)
+	make -C $(LIBFT_PATH) fclean
 
 re: fclean all
 
