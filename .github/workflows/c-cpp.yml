@@ -1,0 +1,30 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - run: make
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install and build fillit-tests
+      run: git clone https://github.com/erikpeik/fillit-tests.git && echo ${PWD} > fillit-tests/path.ini
+    - name: Run Tests
+      run: ./fillit-tests/test.sh easy > test.log 2>&1
+    - name: Check Test Results
+      run: if grep "FAIL" test.log; then echo "Tests failed"; exit 1; else echo "All tests passed"; fi
+    - name: Upload Test Results
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results
+        paths: test.log
