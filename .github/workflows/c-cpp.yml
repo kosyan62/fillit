@@ -11,12 +11,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+      with:
+        submodules: 'recursive'
     - run: make
 
   test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+      with:
+        submodules: 'recursive'
     - name: Install and build fillit-tests
       run: git clone https://github.com/erikpeik/fillit-tests.git && echo ${PWD} > fillit-tests/path.ini
     - name: Run Tests
