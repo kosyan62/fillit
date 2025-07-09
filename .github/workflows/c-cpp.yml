@@ -28,7 +28,7 @@ jobs:
     - name: Check Test Results
       run: if grep "FAIL" test.log; then echo "Tests failed"; exit 1; else echo "All tests passed"; fi
     - name: Upload Test Results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: test-results
         paths: test.log
