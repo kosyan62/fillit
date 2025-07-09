@@ -12,7 +12,7 @@
 
 #ifndef HEADER_H
 # define HEADER_H
-# include "libft/libft.h"
+# include "libft.h"
 # include "fcntl.h"
 
 typedef	struct		s_tetramino
