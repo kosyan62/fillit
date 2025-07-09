@@ -42,6 +42,23 @@ void		check_tetramino(uint64_t res)
 		error();
 }
 
+uint64_t reverse_bits_64(uint64_t tet)
+{
+	uint64_t res;
+	int i;
+
+	res = 0;
+	i = 0;
+	while (i < 64)
+	{
+		res <<= 1;
+		res |= (tet & 1);
+		tet >>= 1;
+		i++;
+	}
+	return (res);
+}
+
 uint64_t	bit_shift(uint64_t tet)
 {
 	tet = reverse_bits_64(tet);

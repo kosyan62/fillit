@@ -61,8 +61,6 @@ int			get_tetraminos(int fd, t_tetramino tetraminoarr[26])
 	}
 	if (x == 0)
 		error();
-	if (read < 0)
-		error();
 	if (lastchar != '\0')
 		error();
 	return (x);
