@@ -1,5 +1,5 @@
 [![42](https://img.shields.io/badge/-Project-black?logo=42&logoColor=white)](https://42.fr/)
-[![Test](https://github.com/kosyan62/fillit/actions/workflows/c-cpp.yml/badge.svg)](https://github.com/kosyan62/libft/actions/workflows/c-cpp.yml)
+[![Test](https://github.com/kosyan62/fillit/actions/workflows/c-cpp.yml/badge.svg)](https://github.com/kosyan62/fillit/actions/workflows/c-cpp.yml)
 ![C](https://img.shields.io/badge/Language-%2300599C.svg?logo=c&logoColor=white)
 
 # Fillit
