@@ -1,0 +1,15 @@
+# Build artifacts
+build/
+fillit
+
+# Temporary files
+*.swp
+*.tmp
+*~
+
+# macOS
+.DS_Store
+
+# IDE files
+.vscode/
+*.sublime-*
